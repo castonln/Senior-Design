@@ -1,6 +1,9 @@
-## Team Members
-**Logan Castonguay**
-Computer Science
-castonln@mail.uc.edu
+# Project Description
+
+## Team "LC"
+### Members
+**Logan Castonguay**  
+*Computer Science*  
+castonln@mail.uc.edu  
 
 ## Project Topic Area
