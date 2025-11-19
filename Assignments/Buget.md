@@ -1,0 +1,1 @@
+As of 11/19/2025, there have been no expenses for this project. There are currently no plans that require any sort of future payment.
