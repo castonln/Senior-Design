@@ -3,14 +3,14 @@
 3. User Stories and Design Diagrams
    1. [User Stories](https://github.com/castonln/Senior-Design/blob/main/Assignments/User_Stories.md)
    2. [Design Diagrams](https://github.com/castonln/Senior-Design/tree/main/Assignments/Design_Diagrams)
-   3. [Description](https://github.com/castonln/Senior-Design/blob/main/Assignments/Appendix.md)
+   3. [Description](https://github.com/castonln/Senior-Design/blob/main/Assignments/Design_Diagrams/Design_Diagram_Descriptions.md)
 4. Project Tasks and Timeline
    1. [Task List](https://github.com/castonln/Senior-Design/blob/main/Assignments/Task_List.md)
    2. [Timeline](https://github.com/castonln/Senior-Design/blob/main/Assignments/Timeline.md)
    3. [Effort Matrix](https://github.com/castonln/Senior-Design/blob/main/Assignments/Effort_Matrix.md)
 5. [ABET Concerns Essay](https://github.com/castonln/Senior-Design/blob/main/Assignments/ABET_Concerns_Essay.md)
-6. [PPT Slideshow](https://github.com/castonln/Senior-Design/blob/main/Assignments/ABET_Concerns_Essay.md)
+6. [PPT Slideshow](https://github.com/castonln/Senior-Design/blob/main/Assignments/Fall%20Design%20Presentation.pptx)
 7. [Self-Assessment](https://github.com/castonln/Senior-Design/blob/main/Assignments/Individual_Capstone_Assessment.md)
 8. [Professional Biographies](https://github.com/castonln/Senior-Design/blob/main/Assignments/Logan%20Castonguay%20Bio.md)
-9. [Budget](https://github.com/castonln/Senior-Design/blob/main/Assignments/Buget.md)
+9. [Budget](https://github.com/castonln/Senior-Design/blob/main/Assignments/Budget.md)
 10. [Appendix](https://github.com/castonln/Senior-Design/blob/main/Assignments/Appendix.md)
