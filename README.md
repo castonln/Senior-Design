@@ -1,3 +1,9 @@
+# Crosley Tower Defense
+
+Crosley Tower Defense is a tower defense game set on UC's campus. The objective is to defend the now ill-fated Crosley Tower from demolition. Players can strategically place students to protect the tower from waves of Triceracopters (as found in Langsam Library) who remove the tower floor by floor. The goal of the project is to create a game that is a topical and fun way to bolster school spirit among students, especially incoming 2026 freshmen.
+
+## Table of Contents
+
 1. [Team Names and Abstract](https://github.com/castonln/Senior-Design/blob/main/Assignments/Project_Abstract.md)
 2. [Project Description](https://github.com/castonln/Senior-Design/blob/main/Assignments/Project-Description.md)
 3. User Stories and Design Diagrams
