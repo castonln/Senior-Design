@@ -16,5 +16,5 @@ No meetings have been held as there is only one member within the team.
 11/2 | 2
 11/9 | 7
 11/16 | 8
-11/23 |
+11/23 | 1
 11/30 |
