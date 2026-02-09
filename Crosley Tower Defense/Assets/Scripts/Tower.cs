@@ -36,6 +36,7 @@ public class Tower : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        print("Take");
         if (floorHealth <= damage)
         {
             DestroyTopFloor();

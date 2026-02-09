@@ -20,6 +20,11 @@ public class Floors : MonoBehaviour
         
     }
 
+    public void TakeDamage(int damage)
+    {
+        tower.TakeDamage(damage);
+    }
+
     public void UpdateFloorsFalling()
     {
         transform.Translate(Vector3.up * 1, Space.World);
