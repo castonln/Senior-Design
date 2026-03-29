@@ -20,6 +20,11 @@ public class Bullet : MonoBehaviour
     {
         if (!target) return;
 
+        if (Vector2.Distance(target.position, transform.position) < 0.1f)
+        {
+            Destroy(gameObject);
+        }
+
         Vector2 direction = (target.position - transform.position).normalized;
 
         rb.linearVelocity = direction * bulletSpeed;
@@ -27,15 +32,22 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.transform.parent.gameObject.GetComponent<Floors>())
+        // Check parent exists before accessing it
+        if (collision.gameObject.transform.parent != null &&
+            collision.gameObject.transform.parent.GetComponent<Floors>())
         {
-            collision.gameObject.transform.parent.gameObject.GetComponent<Floors>().TakeDamage(bulletDamage);
-        }
-        else if (collision.gameObject.GetComponent<Triceracopter>())
-        {
-            collision.gameObject.GetComponent<Triceracopter>().TakeDamage(bulletDamage);
-        }
+            collision.gameObject.transform.parent.GetComponent<Floors>().TakeDamage(bulletDamage);
             Destroy(gameObject);
+        }
+        //else if (collision.gameObject.GetComponent<Triceracopter>())
+        //{
+        //    collision.gameObject.GetComponent<Triceracopter>().TakeDamage(bulletDamage);
+        //}
+    }
+
+    void OnBecameInvisible()
+    {
+        Destroy(gameObject);
     }
 
 }

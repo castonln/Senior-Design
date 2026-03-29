@@ -10,27 +10,36 @@ public class Triceracopter : MonoBehaviour
 
     [Header("Attributes")]
     [SerializeField] private Transform firingPoint;
-    [SerializeField] private float bps = 0.5f;
-    [SerializeField] private Transform target;
+    [SerializeField] private float secondsBetweenFiring = 5f;
     [SerializeField] private int health = 25;
 
-    private float timeUntilFire = 0f;
+    private Transform shootTarget;
+
+    private float timeSinceFiring = 0f;
 
     private void Update()
     {
-        timeUntilFire += Time.deltaTime;
+        timeSinceFiring += Time.deltaTime;
 
-        if (timeUntilFire >= 1f / bps)
+        if (timeSinceFiring >= secondsBetweenFiring)
         {
             Shoot();
-            timeUntilFire = 0f;
+            timeSinceFiring = 0f;
         }
     }
+
+    public void SetTarget(Transform newTarget)
+    {
+        shootTarget = newTarget;
+    }
+
     private void Shoot()
     {
+        if (!shootTarget) return;
+
         GameObject bulletObj = Instantiate(bulletPrefab, firingPoint.position, Quaternion.identity);
         Bullet bulletScript = bulletObj.GetComponent<Bullet>();
-        bulletScript.SetTarget(target);
+        bulletScript.SetTarget(shootTarget);
     }
 
     public void TakeDamage(int damage)

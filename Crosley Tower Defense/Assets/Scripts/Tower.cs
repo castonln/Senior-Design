@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -8,9 +9,9 @@ public class Tower : MonoBehaviour
     [SerializeField] private int floorHealth = 100;
 
     [Header("References")]
-    [SerializeField] private GameObject[] startingFloors;
-    [SerializeField] private Floors floorsContainer;
-    [SerializeField] private GameObject floorsParent;
+    [SerializeField] private Floors floors;
+    [SerializeField] private Transform floorsTransform;
+    [SerializeField] private FloorsAndGround floorsAndGround;
 
     [Header("Damage Sprites")]
     [SerializeField] private GameObject noDamageSprite;
@@ -19,30 +20,34 @@ public class Tower : MonoBehaviour
     [SerializeField] private GameObject hiDamageSprite;
 
     private GameObject curDamageSprite;
-    private Stack<GameObject> floors;
+    private Stack<GameObject> floorsStack;
+
+    public static event Action OnFloorStackEmpty;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        floors = new Stack<GameObject>(startingFloors);
+        floorsStack = new Stack<GameObject>();
+        foreach (Transform childTransform in floorsTransform)
+        {
+            floorsStack.Push(childTransform.gameObject);
+        } 
         curDamageSprite = noDamageSprite;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void TakeDamage(int damage)
     {
-        print("Take");
         if (floorHealth <= damage)
         {
             DestroyTopFloor();
 
-            if (floors.Count > 0)
+            if (floorsStack.Count > 0)
             {
+                floorHealth = 100;
+            }
+            else
+            {
+                OnFloorStackEmpty?.Invoke();
                 floorHealth = 100;
             }
         } 
@@ -92,21 +97,21 @@ public class Tower : MonoBehaviour
 
     private void DestroyTopFloor()
     {
-        GameObject destroyedFloor = floors.Pop();
+        GameObject destroyedFloor = floorsStack.Pop();
         Destroy(destroyedFloor);
-        floorsContainer.UpdateFloorsFalling();
+        floorsAndGround.UpdateFloorsAndGroundFalling();
     }
 
     private void CreateNewFloor()
     {
-        GameObject previousTopFloor = floors.Peek();
+        GameObject previousTopFloor = floorsStack.Peek();
         GameObject newTopFloor = Instantiate(
                 previousTopFloor,
                 previousTopFloor.transform.position + Vector3.up,
                 previousTopFloor.transform.rotation,
-                floorsParent.transform
+                floors.transform
             );
-        floors.Push(newTopFloor);
-        floorsContainer.UpdateFloorsRising();
+        floorsStack.Push(newTopFloor);
+        floorsAndGround.UpdateFloorsAndGroundRising();
     }
 }
