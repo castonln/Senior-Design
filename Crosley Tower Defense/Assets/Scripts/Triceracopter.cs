@@ -47,6 +47,7 @@ public class Triceracopter : MonoBehaviour
         if (damage >= health)
         {
             Destroy(gameObject);
+            LevelManager.main.IncreaseCurrency(10);
         } else
         {
             health -= damage;
