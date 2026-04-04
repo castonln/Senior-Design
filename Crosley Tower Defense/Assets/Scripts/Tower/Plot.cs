@@ -1,0 +1,67 @@
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+public class Plot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+{
+    [Header("References")]
+    [SerializeField] private Transform studentSpawnPoint;
+    [SerializeField] private SpriteRenderer sr;
+
+    private GameObject studentInPlot = null;
+    private LayerMask laneMask;
+
+    private void Start()
+    {
+        laneMask = gameObject.transform.parent.parent.GetComponent<Lane>().GetLaneMask();
+    }
+
+    public GameObject GetStudentInPlot()
+    {
+        return studentInPlot;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!BuildManager.main.IsPlacingStudent() && !studentInPlot) return;
+        sr.enabled = true;
+    }
+
+    public void OnPointerClick(PointerEventData eventData) 
+    {
+        if (BuildManager.main.IsPlacingStudent())
+        {
+            if (studentInPlot) return;
+            GameObject _studentInPlot = BuildManager.main.SpawnStudent(this);
+
+            studentInPlot = _studentInPlot;
+            sr.enabled = false;
+        } 
+        else
+        {
+            if (!studentInPlot) return;
+            BuildManager.main.SetSelectedStudentFromPlot(this);
+        }
+
+     }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (!BuildManager.main.IsPlacingStudent() && !studentInPlot) return;
+        sr.enabled = false;
+    }
+    
+    public Transform StudentSpawnPoint()
+    {
+        return studentSpawnPoint;
+    }
+
+    public void ClearStudent()
+    {
+        studentInPlot = null;
+    }
+
+    public LayerMask GetLaneMask()
+    {
+        return laneMask;
+    }
+}

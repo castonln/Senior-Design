@@ -12,12 +12,12 @@ TagManager:
   - Water
   - UI
   - Enemy
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Plots
+  - Right
+  - Top Right
+  - Top Left
+  - Left
+  - Student Projectiles
   - 
   - 
   - 
@@ -52,6 +52,9 @@ TagManager:
     locked: 0
   - name: Damage
     uniqueID: 708876209
+    locked: 0
+  - name: UI
+    uniqueID: 1404285935
     locked: 0
   m_RenderingLayers:
   - Default

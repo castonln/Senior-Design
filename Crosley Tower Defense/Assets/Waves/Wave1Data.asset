@@ -17,15 +17,3 @@ MonoBehaviour:
     count: 2
     secondsBetweenEnemies: 3.33
     spawnSide: 0
-  - enemyPrefab: {fileID: 7540663427879251050, guid: 7e76f2077a4ef464bafce0a6b8fd01ce, type: 3}
-    count: 2
-    secondsBetweenEnemies: 2.15
-    spawnSide: 1
-  - enemyPrefab: {fileID: 7540663427879251050, guid: 7e76f2077a4ef464bafce0a6b8fd01ce, type: 3}
-    count: 2
-    secondsBetweenEnemies: 4.19
-    spawnSide: 2
-  - enemyPrefab: {fileID: 7540663427879251050, guid: 7e76f2077a4ef464bafce0a6b8fd01ce, type: 3}
-    count: 2
-    secondsBetweenEnemies: 2.75
-    spawnSide: 3
