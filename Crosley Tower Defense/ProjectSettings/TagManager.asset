@@ -41,14 +41,26 @@ TagManager:
   - name: Ground
     uniqueID: 903273557
     locked: 0
+  - name: Enemies
+    uniqueID: 1884358989
+    locked: 0
   - name: Bullet
     uniqueID: 1926107943
     locked: 0
   - name: Tower
     uniqueID: 3410955407
     locked: 0
+  - name: Tower Top
+    uniqueID: 1980699901
+    locked: 0
+  - name: Plots
+    uniqueID: 2244635065
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Student Projectiles
+    uniqueID: 1942265685
     locked: 0
   - name: Damage
     uniqueID: 708876209

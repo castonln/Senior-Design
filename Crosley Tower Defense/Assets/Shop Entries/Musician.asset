@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f079dcf160705468f00534e32742d5, type: 3}
+  m_Name: Musician
+  m_EditorClassIdentifier: Assembly-CSharp::ShopEntry
+  name: Musician
+  description: Perform deadly music that deals damage over time.
+  cost: 150
+  prefab: {fileID: 7540663427879251050, guid: 3ae7dd8d5b8ab4949b0a003fb52fdaaa, type: 3}
+  path1:
+    pathTitle: Master of Music
+    pathDescription: Do 2x as much damage per second 40% faster.
+    pathCost: 200
+    pathPrefab: {fileID: 7540663427879251050, guid: 2054f8396364fb14fad9ebea74776a03, type: 3}
+  path2:
+    pathTitle: Master of Jazz Studies
+    pathDescription: 'Aquire a taste for freeform jazz. Do 3x as much damage per
+      second, but notes are performed seemingly at random between 1-6 seconds. '
+    pathCost: 175
+    pathPrefab: {fileID: 7540663427879251050, guid: 80bd22525bbe61141a981a17c45eb864, type: 3}

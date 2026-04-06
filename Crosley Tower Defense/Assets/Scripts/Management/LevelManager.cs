@@ -1,10 +1,14 @@
+using System;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager main;
 
-    public int currency;
+    public static Action OnChangeCurrency;
+
+    [Header("Attributes")]
+    [SerializeField] private int currency;
 
     private void Awake()
     {
@@ -14,6 +18,7 @@ public class LevelManager : MonoBehaviour
     public void IncreaseCurrency(int amount)
     {
         currency += amount;
+        OnChangeCurrency?.Invoke();
     }
 
     public bool SpendCurrency(int amount)
@@ -21,6 +26,7 @@ public class LevelManager : MonoBehaviour
         if (amount <= currency)
         {
             currency -= amount;
+            OnChangeCurrency?.Invoke();
             return true;
         }
         else
@@ -28,5 +34,10 @@ public class LevelManager : MonoBehaviour
             Debug.Log("Can't buy");
             return false;
         }
+    }
+
+    public int GetCurrency()
+    {
+        return currency;
     }
 }

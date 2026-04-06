@@ -4,9 +4,12 @@ public class ProjectileFiringStudent : FiringStudent
 {
     [SerializeField] private float firingVelocity = 15f;
     [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private int damage = 10;
+    protected override float GetStrength() => damage;
+
     private float g = 9.81f;
 
-    protected override void Shoot()
+    protected override void Shoot(float damage)
     {
         float x = Mathf.Abs(firingPoint.position.x - target.position.x);
         float y = target.position.y - firingPoint.position.y;
@@ -25,6 +28,8 @@ public class ProjectileFiringStudent : FiringStudent
         float firingAngle = Mathf.Atan2(v2 - Mathf.Sqrt(sq), g * x);
 
         GameObject projObj = Instantiate(projectilePrefab, firingPoint.position, Quaternion.identity);
+        projObj.GetComponent<Projectile>().SetDamage(damage);
+
         Rigidbody2D rb = projObj.GetComponent<Rigidbody2D>();
         if (rb != null)
         {

@@ -2,13 +2,12 @@ using System.Net;
 using TMPro;
 using UnityEngine;
 
-public class FloatingProjectile : MonoBehaviour
+public class FloatingProjectile : Projectile
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
 
     [Header("Attributes")]
-    [SerializeField] private int damagePerSecond = 1;
     [SerializeField] private float projectileSpeed = 5f;
 
     private Vector2 direction;
@@ -28,7 +27,7 @@ public class FloatingProjectile : MonoBehaviour
         Triceracopter triceracopter = collision.transform.parent.gameObject.GetComponent<Triceracopter>();
         if (triceracopter != null)
         {
-            triceracopter.TakeDamage(damagePerSecond * Time.deltaTime);
+            triceracopter.TakeDamage(damage * Time.deltaTime);
         }
     }
 

@@ -23,6 +23,7 @@ public class Plot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!BuildManager.main.IsPlacingStudent() && !studentInPlot) return;
+        if (BuildManager.main.IsPlacingStudent() && studentInPlot) return;
         sr.enabled = true;
     }
 
@@ -58,6 +59,11 @@ public class Plot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public void ClearStudent()
     {
         studentInPlot = null;
+    }
+
+    public void SetStudentInPlot(GameObject _studentInPlot)
+    {
+        studentInPlot = _studentInPlot;
     }
 
     public LayerMask GetLaneMask()

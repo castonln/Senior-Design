@@ -19,13 +19,11 @@ public class EnemyMovement : MonoBehaviour
     private void Start()
     {
         moveSpeed = baseSpeed;
-        SetTarget();
+        moveTarget = gameObject.GetComponent<Triceracopter>().GetLane().GetTargetPoint(gameObject);
     }
 
     private void FixedUpdate()
     {
-        if (moveTarget == null) SetTarget();
-
         if (GetXDistanceToTarget() < enemyDetectionRange)
         {
             moveSpeed = 0;
@@ -34,7 +32,7 @@ public class EnemyMovement : MonoBehaviour
             moveSpeed = baseSpeed;
         }
 
-        Vector2 direction = (moveTarget.position - centerPoint.position).normalized;
+        Vector2 direction = new Vector2(moveTarget.position.x - centerPoint.position.x, 0f).normalized;
 
         rb.linearVelocity = direction * moveSpeed;
 
@@ -45,8 +43,8 @@ public class EnemyMovement : MonoBehaviour
         return Mathf.Abs(moveTarget.position.x - centerPoint.position.x);
     }
 
-    public void SetTarget()
+    public void SetTarget(Transform targetPoint)
     {
-        moveTarget = gameObject.GetComponent<Triceracopter>().GetLane().GetTargetPoint();
+        moveTarget = targetPoint;
     }
 }

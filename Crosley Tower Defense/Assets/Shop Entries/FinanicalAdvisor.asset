@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f079dcf160705468f00534e32742d5, type: 3}
+  m_Name: FinanicalAdvisor
+  m_EditorClassIdentifier: Assembly-CSharp::ShopEntry
+  name: Financial Advisor
+  description: Make some passive income for your team.
+  cost: 450
+  prefab: {fileID: 5077020442952825387, guid: c350b94e85615134fba24566e282001b, type: 3}
+  path1:
+    pathTitle: Master of Business Administration
+    pathDescription: Gain half as much money 2x as fast.
+    pathCost: 300
+    pathPrefab: {fileID: 5077020442952825387, guid: 4f2ef2bc85de8334fac1b5ffb98cc439, type: 3}
+  path2:
+    pathTitle: Master of Finance
+    pathDescription: Gain half as much money by default. Money doubles during a wave
+      after each payout, then resets at the end of the wave. Each wave increases
+      the default payout.
+    pathCost: 500
+    pathPrefab: {fileID: 5077020442952825387, guid: 1df9c84d8395f69489f23289b16af970, type: 3}

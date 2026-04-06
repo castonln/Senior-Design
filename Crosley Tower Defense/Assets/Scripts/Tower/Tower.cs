@@ -23,6 +23,7 @@ public class Tower : MonoBehaviour
     private Stack<GameObject> floorsStack;
 
     public static event Action OnFloorStackEmpty;
+    public static event Action OnFloorsStackChange;
     public static Tower main;
     private void Awake()
     {
@@ -36,26 +37,27 @@ public class Tower : MonoBehaviour
         foreach (Transform childTransform in floorsTransform)
         {
             floorsStack.Push(childTransform.gameObject);
+            OnFloorsStackChange?.Invoke();
         } 
         curDamageSprite = noDamageSprite;
     }
 
+    public int GetFloorsStackLength()
+    {
+        return floorsStack.Count;
+    }
+
     public void TakeDamage(int damage)
     {
+        if (floorsAndGround.IsMoving()) return;
+
         if (floorHealth <= damage)
         {
             DestroyTopFloor();
-
-            if (floorsStack.Count > 0)
-            {
-                floorHealth = 100;
-            }
-            else
-            {
+            floorHealth = 100;
+            if (floorsStack.Count == 0)
                 OnFloorStackEmpty?.Invoke();
-                floorHealth = 100;
-            }
-        } 
+        }
         else
         {
             floorHealth -= damage;
@@ -65,6 +67,8 @@ public class Tower : MonoBehaviour
 
     public void HealDamage(int health)
     {
+        if (floorsAndGround.IsMoving()) return;
+
         floorHealth += health;
 
         if (floorHealth >= 100)
@@ -75,33 +79,48 @@ public class Tower : MonoBehaviour
         UpdateDamageSprite();
     }
 
+    private int damageLevel = 0;
+
     private void UpdateDamageSprite()
     {
         curDamageSprite.GetComponent<SpriteRenderer>().enabled = false;
 
+        int newDamageLevel;
+        GameObject newSprite;
+
         if (floorHealth > 75)
         {
-            curDamageSprite = noDamageSprite;
+            newDamageLevel = 0;
+            newSprite = noDamageSprite;
         }
         else if (floorHealth > 50)
         {
-            curDamageSprite = loDamageSprite;
-        } 
+            newDamageLevel = 1;
+            newSprite = loDamageSprite;
+        }
         else if (floorHealth > 25)
         {
-            curDamageSprite = meDamageSprite;
-        } 
+            newDamageLevel = 2;
+            newSprite = meDamageSprite;
+        }
         else
         {
-            curDamageSprite = hiDamageSprite;
+            newDamageLevel = 3;
+            newSprite = hiDamageSprite;
         }
 
+        if (newDamageLevel > damageLevel)
+            floorsAndGround.ShakeHorizontal();
+
+        damageLevel = newDamageLevel;
+        curDamageSprite = newSprite;
         curDamageSprite.GetComponent<SpriteRenderer>().enabled = true;
     }
 
     private void DestroyTopFloor()
     {
         GameObject destroyedFloor = floorsStack.Pop();
+        OnFloorsStackChange?.Invoke();
         Destroy(destroyedFloor);
         floorsAndGround.UpdateFloorsAndGroundFalling();
     }
@@ -115,7 +134,9 @@ public class Tower : MonoBehaviour
                 previousTopFloor.transform.rotation,
                 floors.transform
             );
+        newTopFloor.GetComponent<SpriteRenderer>().sortingOrder = floorsStack.Count;
         floorsStack.Push(newTopFloor);
+        OnFloorsStackChange?.Invoke();
         floorsAndGround.UpdateFloorsAndGroundRising();
     }
 }

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f079dcf160705468f00534e32742d5, type: 3}
+  m_Name: ComputerScientist
+  m_EditorClassIdentifier: Assembly-CSharp::ShopEntry
+  name: Computer Scientist
+  description: Create viruses that spread among your enemies.
+  cost: 300
+  prefab: {fileID: 7540663427879251050, guid: e1bc3222b662a9f418f2f01876f9a734, type: 3}
+  path1:
+    pathTitle: Master of Information Technology
+    pathDescription: Create viruses 2x as fast.
+    pathCost: 250
+    pathPrefab: {fileID: 7540663427879251050, guid: 4f33735a5bc53fe40bbd4b087f8c3fdd, type: 3}
+  path2:
+    pathTitle: Master of Computer Science
+    pathDescription: Create fast viruses that deal 3x as much damage per second,
+      but spend less time on target.
+    pathCost: 300
+    pathPrefab: {fileID: 7540663427879251050, guid: d7bb64cd93d0a2645a0a27d9b8ffb0e4, type: 3}

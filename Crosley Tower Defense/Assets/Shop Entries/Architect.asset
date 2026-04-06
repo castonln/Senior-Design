@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f079dcf160705468f00534e32742d5, type: 3}
+  m_Name: Architect
+  m_EditorClassIdentifier: Assembly-CSharp::ShopEntry
+  name: Architect
+  description: Repair the tower.
+  cost: 500
+  prefab: {fileID: 5077020442952825387, guid: d279bddb0f8228c40b671c0e32f1fe5f, type: 3}
+  path1:
+    pathTitle: Construction Manager
+    pathDescription: Repair 33% faster.
+    pathCost: 200
+    pathPrefab: {fileID: 5077020442952825387, guid: a693bd9d3f7dc0a428e40962a903f15d, type: 3}
+  path2:
+    pathTitle: Master of Architectural Engineering
+    pathDescription: Heal 2x as much damage.
+    pathCost: 500
+    pathPrefab: {fileID: 5077020442952825387, guid: 85f4feadecc314a428d40815343ff418, type: 3}

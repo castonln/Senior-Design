@@ -4,4 +4,6 @@ using UnityEngine;
 public class EnemyRoster : ScriptableObject
 {
     public GameObject defaultTriceracopter;
+    public GameObject tank;
+    public GameObject rapid;
 }

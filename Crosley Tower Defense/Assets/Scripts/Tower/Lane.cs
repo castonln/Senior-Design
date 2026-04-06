@@ -9,16 +9,50 @@ public class Lane : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private Transform targetPoint;
     [SerializeField] private LayerMask laneMask;
+    [SerializeField] private SpriteRenderer laneBuffSprite;
+
+    private LaneMultipliers multipliers = new LaneMultipliers { strength = 1f, speed = 1f };
 
     private List<GameObject> enemies = new List<GameObject>();
 
-    public Transform SpawnPoint => spawnPoint;
-
-    public Transform GetTargetPoint()
+    public int GetNumberOfEnemies()
     {
-        if (enemies.Count == 1) return targetPoint;
+        return enemies.Count;
+    }
 
-        return enemies[0].transform;
+    public Transform SpawnPoint => spawnPoint;
+    public void SetMultipliers(LaneMultipliers _multipliers)
+    {
+        multipliers = _multipliers;
+        SetStudentMultipliers();
+        print(_multipliers.strength);
+        print(_multipliers.speed);
+        DisplayLaneBuff();
+    }
+
+    public void ResetMultipliers()
+    {
+        multipliers = new LaneMultipliers { strength = 1f, speed = 1f };
+        SetStudentMultipliers();
+        HideLaneBuff();
+    }
+
+    private void SetStudentMultipliers()
+    {
+        Student[] students = GetComponentsInChildren<Student>();
+        foreach (Student student in students)
+        {
+            student.SetMultipliers(multipliers);
+        }
+    }
+
+    public Transform GetTargetPoint(GameObject enemy)
+    {
+        int index = enemies.IndexOf(enemy);
+
+        if (index <= 0) return targetPoint;
+
+        return enemies[index - 1].transform;
     }
 
     public void AddEnemy(GameObject enemy)
@@ -35,10 +69,34 @@ public class Lane : MonoBehaviour
     public void RemoveEnemy(GameObject enemy)
     {
         enemies.Remove(enemy);
+
+        int curSortingOrder = 0;
+
+        foreach (GameObject remainingEnemy in enemies)
+        {
+            remainingEnemy.GetComponent<EnemyMovement>().SetTarget(GetTargetPoint(remainingEnemy));
+            remainingEnemy.GetComponentInChildren<SpriteRenderer>().sortingOrder = curSortingOrder;
+            curSortingOrder++;
+        }
     }
 
     public LayerMask GetLaneMask()
     {
         return laneMask;
+    }
+
+    public bool AreEnemiesAlive()
+    {
+        return enemies.Count > 0;
+    }
+
+    private void DisplayLaneBuff()
+    {
+        laneBuffSprite.enabled = true;
+    }
+
+    private void HideLaneBuff()
+    {
+        laneBuffSprite.enabled = false;
     }
 }

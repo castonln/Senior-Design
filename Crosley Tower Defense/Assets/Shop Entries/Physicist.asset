@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f079dcf160705468f00534e32742d5, type: 3}
+  m_Name: Physicist
+  m_EditorClassIdentifier: Assembly-CSharp::ShopEntry
+  name: Physicist
+  description: Experiment with a potato cannon.
+  cost: 100
+  prefab: {fileID: 7540663427879251050, guid: d3e454b89b532594cb43b9478908a480, type: 3}
+  path1:
+    pathTitle: Master of Physics
+    pathDescription: Fire potatoes 2x as fast.
+    pathCost: 100
+    pathPrefab: {fileID: 7540663427879251050, guid: 5350f76201e5a204f915669ddad669e0, type: 3}
+  path2:
+    pathTitle: Doctor of Physics
+    pathDescription: Ditch your potato cannon for a handheld particle accelerator.
+    pathCost: 250
+    pathPrefab: {fileID: 7540663427879251050, guid: c2fb4cf148515cc4897c54c4819dda32, type: 3}

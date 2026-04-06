@@ -16,9 +16,9 @@ public class EnemySpawner : MonoBehaviour
 
     private WaveData wave;
     private int currentWaveIndex = 0;
-    private int enemiesAlive = 0;
     private bool isSpawning = false;
     private bool isWaveActive = false;
+    private int waveCountMultiplier = 1;
 
     private SubWaveInfo subWave;
     private int currentSubWaveIndex = 0;
@@ -27,10 +27,24 @@ public class EnemySpawner : MonoBehaviour
 
     public static event Action OnWaveEnd;
 
+    private int waveTotalUI = 1;
+
     public static EnemySpawner main;
     private void Awake()
     {
         main = this;
+    }
+
+    private bool AreEnemiesAlive()
+    {
+        Lane[] lanes = { rightLane, leftLane, topRightLane, topLeftLane };
+        
+        foreach (Lane lane in lanes)
+        {
+            if (lane.AreEnemiesAlive()) return true;
+        }
+
+        return false;
     }
 
     private void Update()
@@ -39,7 +53,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (!isSpawning)
         {
-            if (enemiesAlive == 0) WaveEnd();
+            if (!AreEnemiesAlive()) WaveEnd();
             return;
         }
 
@@ -50,7 +64,6 @@ public class EnemySpawner : MonoBehaviour
             GameObject enemy = SpawnEnemy(subWave.enemyPrefab, GetLaneFromSpawnSide(subWave.spawnSide).SpawnPoint);
 
             enemiesToSpawnInSubwave--;
-            enemiesAlive++;
             timeSinceLastSpawn = 0f;
         }
 
@@ -63,9 +76,14 @@ public class EnemySpawner : MonoBehaviour
 
     public void WaveStart()
     {
+        if (currentWaveIndex >= waves.Length)
+        {
+            ResetWavesAndIncreaseWaveCountMultiplier();
+        }
+
         wave = waves[currentWaveIndex];
         subWave = wave.subWaves[currentSubWaveIndex];
-        enemiesToSpawnInSubwave = subWave.count;
+        enemiesToSpawnInSubwave = subWave.count * waveCountMultiplier;
         isSpawning = true;
         isWaveActive = true;
     }
@@ -77,7 +95,15 @@ public class EnemySpawner : MonoBehaviour
         currentWaveIndex++;
         currentSubWaveIndex = 0;
         timeSinceLastSpawn = 0f;
+        waveTotalUI++;
         OnWaveEnd?.Invoke();
+        print("Wave ended");
+    }
+
+    private void ResetWavesAndIncreaseWaveCountMultiplier()
+    {
+        currentWaveIndex = 0;
+        waveCountMultiplier += 1;
     }
 
     private void StartNextSubWave()
@@ -87,10 +113,11 @@ public class EnemySpawner : MonoBehaviour
         if (currentSubWaveIndex >= wave.subWaves.Length)
         {
             isSpawning = false;
+            
         } else
         {
             subWave = wave.subWaves[currentSubWaveIndex];
-            enemiesToSpawnInSubwave = subWave.count;
+            enemiesToSpawnInSubwave = subWave.count * waveCountMultiplier;
         }
     }
     private Lane GetLaneFromSpawnSide(SpawnSide spawnSide)
@@ -109,12 +136,13 @@ public class EnemySpawner : MonoBehaviour
     {
         GameObject enemy = Instantiate(
             prefab,
-            spawnPoint.position + Vector3.up,
+            spawnPoint.position,
             spawnPoint.rotation,
             enemyGroup.transform
            );
 
         enemy.GetComponent<Triceracopter>().SetTarget(shootTarget);
+        enemy.GetComponentInChildren<SpriteRenderer>().sortingOrder = GetLaneFromSpawnSide(subWave.spawnSide).GetNumberOfEnemies();
         enemy.GetComponent<Triceracopter>().SetLane(GetLaneFromSpawnSide(subWave.spawnSide));
         GetLaneFromSpawnSide(subWave.spawnSide).AddEnemy(enemy);
 
@@ -133,5 +161,10 @@ public class EnemySpawner : MonoBehaviour
     public bool IsWaveActive()
     {
         return isWaveActive;
+    }
+
+    public int GetWaveTotalUI()
+    {
+        return waveTotalUI;
     }
 }

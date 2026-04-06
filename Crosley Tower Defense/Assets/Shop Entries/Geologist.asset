@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f079dcf160705468f00534e32742d5, type: 3}
+  m_Name: Geologist
+  m_EditorClassIdentifier: Assembly-CSharp::ShopEntry
+  name: Geologist
+  description: Throw rocks at your foes.
+  cost: 50
+  prefab: {fileID: 7540663427879251050, guid: 26f6e037964539a498a4693452d9bae5, type: 3}
+  path1:
+    pathTitle: Master of Geology
+    pathDescription: Find rocks to throw 2x as fast.
+    pathCost: 50
+    pathPrefab: {fileID: 7540663427879251050, guid: ed5906c9c439ace488210b25172f9c40, type: 3}
+  path2:
+    pathTitle: Doctor of Geology
+    pathDescription: Rocks do 2x as much damage.
+    pathCost: 75
+    pathPrefab: {fileID: 7540663427879251050, guid: 9442fa7690a2fc049965a6b9c922be55, type: 3}

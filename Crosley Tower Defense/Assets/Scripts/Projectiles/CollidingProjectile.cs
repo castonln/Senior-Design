@@ -1,11 +1,8 @@
 using UnityEngine;
 
-public class CollidingProjectile : MonoBehaviour
+public class CollidingProjectile : Projectile
 {
-    [Header("Attributes")]
-    [SerializeField] int damage = 10;
-
-    bool hasCollided = false;
+    protected bool hasCollided = false;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

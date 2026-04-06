@@ -1,23 +1,11 @@
 using UnityEngine;
 
-public class FinancialAdvisor : MonoBehaviour
+public class FinancialAdvisor : Student
 {
-    [Header("Attributes")]
-    [SerializeField] private int moneyPerInterval = 10;
-    [SerializeField] private float secondsPerInterval = 1f;
-
-    private float timeSinceMoney = 0f;
-
-    private void Update()
+    [SerializeField] protected int moneyPerInterval = 10;
+    protected override float GetStrength() => moneyPerInterval;
+    protected override void DoAction(float money)
     {
-        if (!EnemySpawner.main.IsWaveActive()) return;
-
-        timeSinceMoney += Time.deltaTime;
-
-        if (timeSinceMoney >= secondsPerInterval)
-        {
-            LevelManager.main.IncreaseCurrency(moneyPerInterval);
-            timeSinceMoney = 0f;
-        }
+        LevelManager.main.IncreaseCurrency((int)moneyPerInterval);
     }
 }

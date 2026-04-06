@@ -3,14 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using static UnityEngine.EventSystems.EventTrigger;
+
+[Serializable]
+public enum UpgradePathSelection
+{
+    path1,
+    path2,
+}
 
 public class BuildManager : MonoBehaviour
 {
     public static BuildManager main;
 
+    public enum PlacementMode { None, PlacingFromShop, MovingFromPlot, Upgrading }
+    private PlacementMode placementMode = PlacementMode.None;
+
     [Header("References")]
-    [SerializeField] private ShopEntry[] studentShopEntries;
+    [SerializeField] private ShopEntries studentShopEntries;
     [SerializeField] private LayerMask plotMask;
 
     private Dictionary<string, ShopEntry> studentDict = new();
@@ -19,7 +28,6 @@ public class BuildManager : MonoBehaviour
     private GameObject selectedMoveStudent;
     private Plot sourcePlot;
 
-    private bool isSelectedStudentFromShop = false;
     private bool isPlacingStudent = false;
 
     public static event Action OnSelectMoveStudent;
@@ -28,8 +36,7 @@ public class BuildManager : MonoBehaviour
     private void Awake()
     {
         main = this;
-
-        foreach (var student in studentShopEntries)
+        foreach (var student in studentShopEntries.shopEntries)
         {
             studentDict[student.name] = student;
         }
@@ -39,6 +46,7 @@ public class BuildManager : MonoBehaviour
     {
         if (!isPlacingStudent) return;
         if (!Mouse.current.leftButton.wasPressedThisFrame) return;
+        if (EventSystem.current.IsPointerOverGameObject()) return;
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         if (Physics2D.OverlapPoint(mousePos, plotMask) != null) return;
@@ -48,45 +56,98 @@ public class BuildManager : MonoBehaviour
 
     public GameObject SpawnStudent(Plot plot)
     {
-        GameObject studentObj;
-        if (isSelectedStudentFromShop)
+        switch (placementMode)
         {
-            ShopEntry studentToPlace = GetSelectedShopStudent();
-            LevelManager.main.SpendCurrency(studentToPlace.cost);
-
-            studentObj = Instantiate(
-                studentToPlace.prefab,
-                plot.StudentSpawnPoint().position + Vector3.up * 0.5f,
-                plot.StudentSpawnPoint().rotation,
-                plot.transform
-            );
-            studentObj.name = studentToPlace.prefab.name;
+            case PlacementMode.PlacingFromShop: return PlaceFromShop(plot);
+            case PlacementMode.MovingFromPlot: return MoveFromPlot(plot);
+            default: return null;
         }
-        else
-        {
-            studentObj = selectedMoveStudent;
-            studentObj.transform.position = plot.StudentSpawnPoint().position + Vector3.up * 0.5f;
-            studentObj.transform.rotation = plot.StudentSpawnPoint().rotation;
-            studentObj.transform.SetParent(plot.transform);
-            sourcePlot.ClearStudent();
+    }
 
-            sourcePlot = null;
-            selectedMoveStudent = null;
-            OnDeselectMoveStudent?.Invoke();
+    private GameObject PlaceFromShop(Plot plot)
+    {
+        ShopEntry studentToPlace = GetSelectedShopStudent();
+        if (!LevelManager.main.SpendCurrency(studentToPlace.cost))
+        {
+            CancelPlacement();
+            return null;
         }
 
-        FiringStudent firingStudent = studentObj.GetComponent<FiringStudent>();
-        if (firingStudent != null)
-        {
-            firingStudent.SetLaneMask(plot.GetLaneMask());
-            firingStudent.FindTarget();
-        }
-
-        isPlacingStudent = false;
-        isSelectedStudentFromShop = false;
-        selectedShopStudentKey = "";
-
+        GameObject studentObj = Instantiate(
+            studentToPlace.prefab,
+            plot.StudentSpawnPoint().position + Vector3.up * 0.5f,
+            plot.StudentSpawnPoint().rotation,
+            plot.transform
+        );
+        studentObj.name = studentToPlace.prefab.name;
+        FinishPlacement();
         return studentObj;
+    }
+
+    private GameObject MoveFromPlot(Plot plot)
+    {
+        selectedMoveStudent.transform.position = plot.StudentSpawnPoint().position + Vector3.up * 0.5f;
+        selectedMoveStudent.transform.rotation = plot.StudentSpawnPoint().rotation;
+        selectedMoveStudent.transform.SetParent(plot.transform);
+        sourcePlot.ClearStudent();
+        sourcePlot = null;
+        OnDeselectMoveStudent?.Invoke();
+
+        GameObject studentObj = selectedMoveStudent;
+        selectedMoveStudent = null;
+        FinishPlacement();
+        return studentObj;
+    }
+
+    private GameObject PlaceUpgrade(Plot plot, UpgradePath pendingUpgrade)
+    {
+        if (!LevelManager.main.SpendCurrency(pendingUpgrade.pathCost))
+        {
+            CancelPlacement();
+            return null;
+        }
+
+        DespawnStudent(selectedMoveStudent);
+
+        GameObject studentObj = Instantiate(
+            pendingUpgrade.pathPrefab,
+            plot.StudentSpawnPoint().position + Vector3.up * 0.5f,
+            plot.StudentSpawnPoint().rotation,
+            plot.transform
+        );
+        studentObj.name = pendingUpgrade.pathPrefab.name;
+        pendingUpgrade = null;
+        plot.SetStudentInPlot(studentObj);
+        FinishPlacement();
+        return studentObj;
+    }
+
+    private void FinishPlacement()
+    {
+        placementMode = PlacementMode.None;
+        isPlacingStudent = false;
+        selectedShopStudentKey = "";
+    }
+
+    public void SellSelectedStudent()
+    {
+        LevelManager.main.IncreaseCurrency(GetSelectedStudentSellValue());
+        DespawnStudent(selectedMoveStudent);
+    }
+
+    public void UpgradePath1() => UpgradeSelectedStudent(GetSelectedStudentUpgradePaths()[0]);
+    public void UpgradePath2() => UpgradeSelectedStudent(GetSelectedStudentUpgradePaths()[1]);
+
+    private void UpgradeSelectedStudent(UpgradePath upgradePath)
+    {
+        placementMode = PlacementMode.Upgrading;
+        PlaceUpgrade(sourcePlot, upgradePath);
+    }
+
+    public void DespawnStudent(GameObject student)
+    {
+        Destroy(student);
+        CancelPlacement();
     }
 
     public bool IsPlacingStudent()
@@ -108,7 +169,7 @@ public class BuildManager : MonoBehaviour
     public void SetSelectedStudentFromShop(string _selectedStudentKey)
     {
         selectedShopStudentKey = _selectedStudentKey;
-        isSelectedStudentFromShop = true;
+        placementMode = PlacementMode.PlacingFromShop;
         isPlacingStudent = true;
     }
 
@@ -116,7 +177,7 @@ public class BuildManager : MonoBehaviour
     {
         sourcePlot = plot;
         selectedMoveStudent = plot.GetStudentInPlot();
-        isSelectedStudentFromShop = false;
+        placementMode = PlacementMode.MovingFromPlot;
         isPlacingStudent = true;
         OnSelectMoveStudent?.Invoke();
     }
@@ -129,8 +190,8 @@ public class BuildManager : MonoBehaviour
             selectedMoveStudent = null;
             OnDeselectMoveStudent?.Invoke();
         }
+        placementMode = PlacementMode.None;
         isPlacingStudent = false;
-        isSelectedStudentFromShop = false;
         selectedShopStudentKey = "";
     }
 
@@ -139,4 +200,35 @@ public class BuildManager : MonoBehaviour
         return selectedMoveStudent.name;
     }
 
+    public int GetSelectedStudentCost()
+    {
+        foreach (var shopEntry in studentShopEntries.shopEntries)
+        {
+            if (shopEntry.name == selectedMoveStudent.name)
+                return shopEntry.cost;
+        }
+        return 0;
+    }
+
+    public int GetSelectedStudentSellValue()
+    {
+        foreach (var shopEntry in studentShopEntries.shopEntries)
+        {
+            if (shopEntry.name == selectedMoveStudent.name
+                || shopEntry.path1.pathTitle == selectedMoveStudent.name
+                || shopEntry.path2.pathTitle == selectedMoveStudent.name)
+                return shopEntry.cost / 2;
+        }
+        return 0;
+    }
+
+    public UpgradePath[] GetSelectedStudentUpgradePaths()
+    {
+        foreach (var shopEntry in studentShopEntries.shopEntries)
+        {
+            if (shopEntry.name == selectedMoveStudent.name)
+                return new UpgradePath[] { shopEntry.path1, shopEntry.path2 };
+        }
+        return null;
+    }
 }

@@ -1,14 +1,23 @@
 using UnityEngine;
 
-public abstract class FiringStudent : MonoBehaviour
+public abstract class FiringStudent : Student
 {
     [Header("Attributes")]
-    [SerializeField] protected float secondsBetweenFire = 2f;
     [SerializeField] protected Transform firingPoint;
 
     protected LayerMask laneMask;
     protected Transform target;
     protected float timeSinceFire = 0f;
+
+    private void Start()
+    {
+        SetLaneMask(gameObject.GetComponentInParent<Plot>().GetLaneMask());
+    }
+
+    private void OnTransformParentChanged()
+    {
+        SetLaneMask(gameObject.GetComponentInParent<Plot>().GetLaneMask());
+    }
 
     public void SetLaneMask(LayerMask _laneMask)
     {
@@ -26,7 +35,7 @@ public abstract class FiringStudent : MonoBehaviour
 
     public Transform GetTarget() { return target; }
 
-    private void Update()
+    protected override void DoAction(float damage)
     {
         if (target == null)
         {
@@ -34,13 +43,8 @@ public abstract class FiringStudent : MonoBehaviour
             return;
         }
 
-        timeSinceFire += Time.deltaTime;
-        if (timeSinceFire >= secondsBetweenFire)
-        {
-            Shoot();
-            timeSinceFire = 0f;
-        }
+        Shoot(damage);
     }
 
-    protected abstract void Shoot();
+    protected abstract void Shoot(float damage);
 }

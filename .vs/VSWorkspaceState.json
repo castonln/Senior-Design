@@ -3,8 +3,14 @@
     "",
     "\\Crosley Tower Defense",
     "\\Crosley Tower Defense\\Assets",
-    "\\Crosley Tower Defense\\Assets\\Scripts"
+    "\\Crosley Tower Defense\\Assets\\Rosters",
+    "\\Crosley Tower Defense\\Assets\\Scripts",
+    "\\Crosley Tower Defense\\Assets\\Scripts\\Enemies",
+    "\\Crosley Tower Defense\\Assets\\Scripts\\Management",
+    "\\Crosley Tower Defense\\Assets\\Scripts\\Tower",
+    "\\Crosley Tower Defense\\Assets\\Shop Entries",
+    "\\Crosley Tower Defense\\Assets\\Waves"
   ],
-  "SelectedNode": "\\Crosley Tower Defense\\Assets\\Scripts\\Management.meta",
+  "SelectedNode": "\\Crosley Tower Defense\\Assets\\Scripts\\UI\\UpgradeMenu.cs",
   "PreviewInSolutionExplorer": false
 }
