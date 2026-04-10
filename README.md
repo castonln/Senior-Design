@@ -1,5 +1,9 @@
-# Crosley Tower Defense
+<div align="center">
+   <h1>Crosley Tower Defense</h1>
+   <img width="600" alt="image" src="https://github.com/user-attachments/assets/1dd26446-ad34-4a95-b124-9795472d5ce0" />
+</div>
 
+## Project Description
 Crosley Tower Defense is a tower defense game set on UC's campus. The objective is to defend the now ill-fated Crosley Tower from demolition. Players can strategically place students to protect the tower from waves of Triceracopters (as found in Langsam Library) who remove the tower floor by floor. The goal of the project is to create a game that is a topical and fun way to bolster school spirit among students, especially incoming 2026 freshmen.
 
 ## How to play
@@ -27,6 +31,14 @@ Yes, students are not permenantly bound to one location. See the **How to play**
 
 *Can waves be sped up / slowed down?*
 No. Waves are set at a particular speed since a main aspect of the game is the ability to move students in real time to defend different areas.
+
+## CEAS Expo Presentation
+A working demo was presented at the 2026 CEAS Expo, as shown below.
+
+<div align="center">
+   <img width="400" alt="image" src="https://github.com/user-attachments/assets/3a95a637-bf31-4117-bdc5-df1dbdf8bc02" />
+   <img width="400" alt="image" src="https://github.com/user-attachments/assets/ecb6e631-5884-4bf1-89b7-11561c10c7c1" />
+</div>
 
 ## Table of Contents
 
