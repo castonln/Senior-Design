@@ -11,9 +11,9 @@ Players start with a fully constructed **tower** featuring a grid and a starting
 
 Click the **"Shop"** button to open the game's shop. **Students** can be hired to defend the tower for a set amount of **points.** A **student,** when bought, can be placed on a grid cell. Outer cells are for defending against enemies, **Triceracopters,** while inner cells are for support-based students who don't attack, but instead help in other ways.
 
-Arrows show which **lanes** **Triceracopters** will spawn in. There are *four* **lanes,** one for each protrusion of the **tower's** top.
+There are *four* **lanes,** one for each protrusion of the **tower's** top.
 
-When players are ready, click the **"Start"** button to begin the **wave.** A **wave** is a collection of **Triceracopters** that attack over a period of time. **Triceracopters** will only spawn during that **wave** in the **lanes** with arrows. Once all the **Triceracopters** are defeated, the **wave** is over, and players have time to prepare for the next wave.
+When players are ready, click the **"Start Wave"** button to begin the **wave.** A **wave** is a collection of **Triceracopters** that attack over a period of time. Once all the **Triceracopters** are defeated, the **wave** is over, and players have time to prepare for the next wave.
 
 Each time a **Triceracopter** is defeated, **points** are awarded to the player, which can be used in the shop.
 
